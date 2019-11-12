@@ -3,9 +3,9 @@ import './sign-in.styles.scss';
 import FormInput from '../../components/form-input/form-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
-export default class SignIn extends Component {
+class SignIn extends Component {
     constructor(props){
         super(props);
 
@@ -15,37 +15,59 @@ export default class SignIn extends Component {
         }
     }
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
-        this.setState({email: '', password:''});
+
+        const { email, password} = this.state;
+        
+        try{
+            await auth.signInWithEmailAndPassword(email, password);
+            this.setState({email: '', password:''});
+        } catch(error) {
+
+        }
+    
     }
 
-    handleChange = event => {
-        const { value, name } = event.target;
-        this.setState({[name]: value})
+    handleChange = ( event) => {
+        const {name, value} = event.target
+        this.setState({[name] : value});
+        console.log(this.state);
     }
 
     render() {
+        const { email, password } = this.state;
+    
         return (
             <div className='sign-in'>
                 <h2>I already have an account</h2>
                 <span>Sign in with your email and password</span>
 
                 <form onSubmit={this.handleSubmit}>
+        
                     <FormInput 
-                        name='Email'
+                        name='email'
                         type='email'
-                        value={this.state.email}
-                        handleChange={this.handleChange}
-                        label='email'
+                        value={email}
+                        onChange={this.handleChange}
+                        label='Email'
                         required
                     />
                     <FormInput 
-                        name='Password'
+                        name='password'
                         type='password'
-                        value={this.state.password}
-                        handleChange={this.handleChange}
+                        value={password}
+                        onChange={this.handleChange}
                         label='password'
+                        required
+                    />
+
+                    <FormInput 
+                        name='ccc'
+                        type='text'
+                        value=' s'
+                        handleChange={(this.handleChange)}
+                        label='ccc'
                         required
                     />
 
@@ -58,3 +80,5 @@ export default class SignIn extends Component {
         )
     }
 }
+
+export default SignIn;
