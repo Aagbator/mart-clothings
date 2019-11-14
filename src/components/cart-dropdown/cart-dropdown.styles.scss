@@ -12,6 +12,13 @@
     right: 30px;
     z-index: 5;
     box-shadow: 5px 5px 10px rgba(0,0,0, .6);
+
+    .empty-message{
+      font-size: 30px;
+      margin: 20px;
+      color: rgb(151, 149, 149);
+      text-align: center;
+    }
   
     .cart-items {
       height: 240px;
